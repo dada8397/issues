@@ -1,28 +1,45 @@
+#---
+# Excerpted from "Programming Elixir 1.3",
+# published by The Pragmatic Bookshelf.
+# Copyrights apply to this code. It may not be used to create training material,
+# courses, books, articles, and the like. Contact us if you are in doubt.
+# We make no guarantees that this code is fit for any purpose.
+# Visit http://www.pragmaticprogrammer.com/titles/elixir13 for more book information.
+#---
 defmodule Issues.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :issues,
-      version: "0.1.0",
-      elixir: "~> 1.5",
+      app:             :issues,
+      version:         "0.0.1",
+      name:            "Issues",
+      source_url:      "https://github.com/pragdave/issues",
+      escript:         escript_config,
+      build_embedded:  Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      deps: deps()
+      deps:            deps()
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
+  # Configuration for the OTP application
   def application do
-    [
-      extra_applications: [:logger]
+    [ 
+      applications: [ :logger, :httpoison ]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
+      {:httpoison,  "~> 0.9"},
+      {:poison,     "~> 2.2"},
+      {:ex_doc,     "~> 0.12"},
+      {:earmark,    "~> 1.0", override: true}
     ]
   end
+
+  defp escript_config do
+    [ main_module: Issues.CLI ]
+  end
+
 end
